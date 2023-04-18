@@ -13,10 +13,17 @@ const config = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
+    clean: true,
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
   },
   devServer: {
     open: true,
     host: 'localhost',
+    hot: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
