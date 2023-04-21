@@ -1,6 +1,11 @@
+.main__textBlock {
+  text-align: center;
+  min-height: 1rem;
+  word-wrap: break-word;
+}
+
 .keyboardBlock_key:active {
  background-color: green;
- 
 }
 .activeButton {
   background-color: green;
