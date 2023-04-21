@@ -1,6 +1,6 @@
 export default function createNode(
   {
-    tag = 'div', className, textContent = '', attr = '', parrent = '',
+    tag = 'div', className, textContent = '', attr = '', parent = '',
   },
 ) {
   const node = document.createElement(tag);
@@ -10,6 +10,6 @@ export default function createNode(
     Object.keys(attr)
       .forEach((key) => node.setAttribute(key, attr[key]));
   }
-  if (parrent) parrent.appendChild(node);
+  if (parent) parent.appendChild(node);
   return node;
 }
