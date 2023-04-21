@@ -1,0 +1,8 @@
+.keyboardBlock_key:active {
+ background-color: green;
+ 
+}
+.activeButton {
+  background-color: green;
+  transition: background-color 0.3s;
+}
