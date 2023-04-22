@@ -2,18 +2,18 @@ import { createNode } from '../utils/create-node';
 
 export function createButtons(
   {
-    jsonKey, jsonKeyCapslock, jsonKeyShift, jsonKeyCode, parentNode,
+    arrayKeys, arrayKeysCapslock, arrayKeysShift, arrayKeysCode, parentNode,
   },
 ) {
-  return jsonKey.map((_, index) => createNode({
+  return arrayKeys.map((_, index) => createNode({
     tag: 'button',
     className: 'keyboardBlock_key',
-    textContent: jsonKey[index],
+    textContent: arrayKeys[index],
     attr: {
-      'data-key': jsonKey[index],
-      'data-keycapslock': jsonKeyCapslock[index],
-      'data-keyshift': jsonKeyShift[index],
-      'data-keycode': jsonKeyCode[index],
+      'data-key': arrayKeys[index],
+      'data-keycapslock': arrayKeysCapslock[index],
+      'data-keyshift': arrayKeysShift[index],
+      'data-keycode': arrayKeysCode[index],
     },
     parent: parentNode,
   }));

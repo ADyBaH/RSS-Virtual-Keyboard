@@ -42,12 +42,11 @@ const keyboardBlock = createNode({
   parent: main,
 });
 
-// TODO rename
 const arrayButtons = createButtons({
-  jsonKey: jsonButtons.en.keys,
-  jsonKeyCapslock: jsonButtons.en.keysCapslock,
-  jsonKeyShift: jsonButtons.en.keysShift,
-  jsonKeyCode: jsonButtons.keysCode,
+  arrayKeys: jsonButtons.en.keys,
+  arrayKeysCapslock: jsonButtons.en.keysCapslock,
+  arrayKeysShift: jsonButtons.en.keysShift,
+  arrayKeysCode: jsonButtons.keysCode,
   parentNode: keyboardBlock,
 });
 
