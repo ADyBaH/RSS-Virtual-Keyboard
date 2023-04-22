@@ -55,9 +55,10 @@ function clickOnButton(event) {
   }
 }
 function buttonKeyDown(event) {
-  // console.log(event);
   if (!jsonButtons.keysCode.includes(event.code)) return;
-  const node = document.querySelector(`[data-keycode = '${event.code}']`);
+
+  const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
+
   if (!keyboardState.ignoreAddedTextButton.includes(node.dataset.keycode)) {
     textArea.textContent += node.textContent;
   }
@@ -70,7 +71,7 @@ function buttonKeyDown(event) {
 }
 function buttonKeyUp(event) {
   if (!jsonButtons.keysCode.includes(event.code)) return;
-  const node = document.querySelector(`[data-keycode = '${event.code}']`);
+  const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
   node.classList.remove('activeButton');
 }
 addedEvent({ nodesArray: arrayButtons, callback: clickOnButton, event: 'click' });
