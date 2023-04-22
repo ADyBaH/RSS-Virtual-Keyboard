@@ -1,4 +1,4 @@
-import createNode from './utils/createNodeModule';
+import { createNode } from '../utils/create-node';
 
 const root = document.querySelector('.root');
 

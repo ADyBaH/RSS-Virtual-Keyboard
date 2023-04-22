@@ -1,13 +1,14 @@
-import createNode from './utils/createNodeModule';
-import { createButtons, addedEvent } from './createButtonsModule';
+import { createNode } from '../utils/create-node';
+import { createButtons, addedEvent } from './create-buttons';
 import {
-  // setLanguageToLocalStorage,
+  // setToLocalStorage,
   getLanguageToLocalStorage,
-} from './utils/getLocalStorageModule';
+} from '../utils/local-storage';
 import jsonButtons from './keyboard.json';
 
 const root = createNode({ className: 'root', parent: document.body });
 const header = createNode({ tag: 'header', className: 'header', parent: root });
+const main = createNode({ tag: 'main', className: 'main', parent: root });
 
 const keyboardState = {
   languageKeyboard: getLanguageToLocalStorage(),
@@ -25,10 +26,8 @@ createNode({
   parent: header,
 });
 
-const main = createNode({ tag: 'main', className: 'main', parent: root });
-
-const divForText = createNode({
-  tag: 'div',
+const textArea = createNode({
+  tag: 'textarea',
   className: 'main__textBlock',
   // attr: {
   // },
@@ -40,6 +39,8 @@ const keyboardBlock = createNode({
   className: 'main__keyboardBlock',
   parent: main,
 });
+
+// TODO rename
 const arrayButtons = createButtons({
   jsonKey: jsonButtons.en.keys,
   jsonKeyCapslock: jsonButtons.en.keysCapslock,
@@ -50,22 +51,25 @@ const arrayButtons = createButtons({
 
 function clickOnButton(event) {
   if (!keyboardState.ignoreAddedTextButton.includes(event.target.dataset.keycode)) {
-    divForText.textContent += event.target.textContent;
+    textArea.textContent += event.target.textContent;
   }
 }
 function buttonKeyDown(event) {
+  // console.log(event);
   if (!jsonButtons.keysCode.includes(event.code)) return;
-
   const node = document.querySelector(`[data-keycode = '${event.code}']`);
   if (!keyboardState.ignoreAddedTextButton.includes(node.dataset.keycode)) {
-    divForText.textContent += node.textContent;
+    textArea.textContent += node.textContent;
+  }
+  if (event.code === 'Tab') {
+    event.preventDefault();
+    textArea.textContent += '    ';
   }
 
   node.classList.add('activeButton');
 }
 function buttonKeyUp(event) {
   if (!jsonButtons.keysCode.includes(event.code)) return;
-
   const node = document.querySelector(`[data-keycode = '${event.code}']`);
   node.classList.remove('activeButton');
 }

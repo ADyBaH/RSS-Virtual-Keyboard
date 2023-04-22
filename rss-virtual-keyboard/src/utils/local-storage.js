@@ -1,4 +1,4 @@
-export function setLanguageToLocalStorage(key, language) {
+export function setToLocalStorage(key, language) {
   localStorage.setItem(key, language);
   return language;
 }
@@ -6,5 +6,5 @@ export function setLanguageToLocalStorage(key, language) {
 export function getLanguageToLocalStorage() {
   const language = localStorage.getItem('languageKeyboard');
   if (language) { return language; }
-  return setLanguageToLocalStorage('languageKeyboard', 'en');
+  return setToLocalStorage('languageKeyboard', 'en');
 }

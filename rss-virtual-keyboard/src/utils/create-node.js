@@ -1,4 +1,4 @@
-export default function createNode(
+export function createNode(
   {
     tag = 'div', className, textContent = '', attr = '', parent = '',
   },
