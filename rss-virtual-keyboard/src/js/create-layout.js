@@ -4,7 +4,7 @@ import {
   // setToLocalStorage,
   getLanguageToLocalStorage,
 } from '../utils/local-storage';
-import jsonButtons from './keyboard.json';
+import jsonButtons from '../data/keyboard.json';
 
 const root = createNode({ className: 'root', parent: document.body });
 const header = createNode({ tag: 'header', className: 'header', parent: root });
