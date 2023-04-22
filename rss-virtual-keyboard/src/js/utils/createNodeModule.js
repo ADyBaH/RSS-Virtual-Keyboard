@@ -4,7 +4,13 @@ export default function createNode(
   },
 ) {
   const node = document.createElement(tag);
-  if (className) node.className = className;
+  if (className) {
+    if (typeof className === 'string') {
+      node.className = className;
+    } else {
+      className.forEach((string) => node.classList.add(string));
+    }
+  }
   node.textContent = textContent;
   if (attr) {
     Object.keys(attr)
