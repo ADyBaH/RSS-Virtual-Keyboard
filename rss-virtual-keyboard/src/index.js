@@ -1,4 +1,4 @@
 import './style.scss';
-import './js/createLayoutModule';
-import './js/createFooterModule';
-import './js/createButtonsModule';
+import './js/create-layout';
+import './js/create-footer';
+import './js/create-buttons';
