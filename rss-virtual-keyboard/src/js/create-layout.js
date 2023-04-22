@@ -5,10 +5,12 @@ import {
   getLanguageToLocalStorage,
 } from '../utils/local-storage';
 import jsonButtons from '../data/keyboard.json';
+import { createFooter } from './create-footer';
 
 const root = createNode({ className: 'root', parent: document.body });
 const header = createNode({ tag: 'header', className: 'header', parent: root });
 const main = createNode({ tag: 'main', className: 'main', parent: root });
+createFooter(root);
 
 const keyboardState = {
   languageKeyboard: getLanguageToLocalStorage(),
