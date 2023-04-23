@@ -3,6 +3,6 @@ export function setToLocalStorage(key, language) {
   return language;
 }
 
-export function getToLocalStorage(key) {
+export function getFromLocalStorage(key) {
   return localStorage.getItem(`${key}(ADyBaH4uK)`);
 }
