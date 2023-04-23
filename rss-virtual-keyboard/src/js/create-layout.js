@@ -52,9 +52,12 @@ function clickOnButton(event) {
     event.preventDefault();
     textArea.textContent += '    ';
   }
+
   if (event.target.dataset.keycode === 'Backspace') {
     textArea.textContent = deleteLastCharacter(textArea.textContent);
   }
+
+  if (event.target.dataset.keycode === 'Delete') textArea.textContent = '';
 }
 
 function buttonKeyDown(event) {
@@ -74,6 +77,8 @@ function buttonKeyDown(event) {
   if (event.code === 'Backspace') {
     textArea.textContent = deleteLastCharacter(textArea.textContent);
   }
+
+  if (event.code === 'Delete') textArea.textContent = '';
 
   node.classList.add('activeButton');
 }
