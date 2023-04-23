@@ -17,7 +17,7 @@ const keyboardState = {
   capslock: false,
   ignoreAddedTextButton: [
     'Backspace', 'Tab', 'Delete', 'CapsLock', 'Enter', 'ShiftLeft',
-    'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ControlRight',
+    'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight', 'ControlRight',
   ],
 };
 
@@ -31,8 +31,6 @@ createNode({
 const textArea = createNode({
   tag: 'textarea',
   className: 'main__textBlock',
-  // attr: {
-  // },
   parent: main,
 });
 
@@ -55,6 +53,7 @@ function clickOnButton(event) {
     textArea.textContent += event.target.textContent;
   }
 }
+
 function buttonKeyDown(event) {
   if (!jsonButtons.keysCode.includes(event.code)) return;
 
@@ -70,11 +69,13 @@ function buttonKeyDown(event) {
 
   node.classList.add('activeButton');
 }
+
 function buttonKeyUp(event) {
   if (!jsonButtons.keysCode.includes(event.code)) return;
   const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
   node.classList.remove('activeButton');
 }
+
 addedEvent({ nodesArray: arrayButtons, callback: clickOnButton, event: 'click' });
 addedEvent({ nodesArray: [document.body], callback: buttonKeyDown, event: 'keydown' });
 addedEvent({ nodesArray: [document.body], callback: buttonKeyUp, event: 'keyup' });
