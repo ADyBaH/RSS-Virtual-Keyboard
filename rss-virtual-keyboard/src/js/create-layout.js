@@ -7,6 +7,7 @@ import {
 import jsonButtons from '../data/keyboard.json';
 import { createFooter } from './create-footer';
 import { createHeader } from './create-header';
+import { deleteLastCharacter } from '../utils/delete-lastCharacter';
 
 const root = createNode({ className: 'root', parent: document.body });
 createHeader(root);
@@ -51,6 +52,9 @@ function clickOnButton(event) {
     event.preventDefault();
     textArea.textContent += '    ';
   }
+  if (event.target.dataset.keycode === 'Backspace') {
+    textArea.textContent = deleteLastCharacter(textArea.textContent.length, textArea.textContent);
+  }
 }
 
 function buttonKeyDown(event) {
@@ -61,9 +65,14 @@ function buttonKeyDown(event) {
   if (!keyboardState.ignoreAddedTextButtonsArray.includes(node.dataset.keycode)) {
     textArea.textContent += node.textContent;
   }
+
   if (event.code === 'Tab') {
     event.preventDefault();
     textArea.textContent += '    ';
+  }
+
+  if (event.code === 'Backspace') {
+    textArea.textContent = deleteLastCharacter(textArea.textContent.length, textArea.textContent);
   }
 
   node.classList.add('activeButton');
