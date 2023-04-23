@@ -6,9 +6,10 @@ import {
 } from '../utils/local-storage';
 import jsonButtons from '../data/keyboard.json';
 import { createFooter } from './create-footer';
+import { createHeader } from './create-header';
 
 const root = createNode({ className: 'root', parent: document.body });
-const header = createNode({ tag: 'header', className: 'header', parent: root });
+createHeader(root);
 const main = createNode({ tag: 'main', className: 'main', parent: root });
 createFooter(root);
 
@@ -20,13 +21,6 @@ const keyboardState = {
     'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight', 'ControlRight',
   ],
 };
-
-createNode({
-  tag: 'h1',
-  textContent: 'RSS Virtual Keyboard',
-  className: 'header__logo',
-  parent: header,
-});
 
 const textArea = createNode({
   tag: 'textarea',
