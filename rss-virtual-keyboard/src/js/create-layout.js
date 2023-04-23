@@ -46,6 +46,11 @@ function clickOnButton(event) {
   if (!keyboardState.ignoreAddedTextButtonsArray.includes(event.target.dataset.keycode)) {
     textArea.textContent += event.target.textContent;
   }
+
+  if (event.target.dataset.keycode === 'Tab') {
+    event.preventDefault();
+    textArea.textContent += '    ';
+  }
 }
 
 function buttonKeyDown(event) {
