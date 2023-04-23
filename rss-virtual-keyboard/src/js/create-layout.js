@@ -2,7 +2,7 @@ import { createNode } from '../utils/create-node';
 import { createButtons, addedEvent } from './create-buttons';
 import {
   setToLocalStorage,
-  getToLocalStorage,
+  getFromLocalStorage,
 } from '../utils/local-storage';
 import jsonButtons from '../data/keyboard.json';
 import { createFooter } from './create-footer';
@@ -14,9 +14,9 @@ const main = createNode({ tag: 'main', className: 'main', parent: root });
 createFooter(root);
 
 const keyboardState = {
-  languageKeyboard: getToLocalStorage('languageKeyboard') || setToLocalStorage('languageKeyboard', 'en'),
+  languageKeyboard: getFromLocalStorage('languageKeyboard') || setToLocalStorage('languageKeyboard', 'en'),
   capslock: false,
-  ignoreAddedTextButton: [
+  ignoreAddedTextButtonsArray: [
     'Backspace', 'Tab', 'Delete', 'CapsLock', 'Enter', 'ShiftLeft',
     'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight', 'ControlRight',
   ],
@@ -43,7 +43,7 @@ const arrayButtons = createButtons({
 });
 
 function clickOnButton(event) {
-  if (!keyboardState.ignoreAddedTextButton.includes(event.target.dataset.keycode)) {
+  if (!keyboardState.ignoreAddedTextButtonsArray.includes(event.target.dataset.keycode)) {
     textArea.textContent += event.target.textContent;
   }
 }
@@ -53,7 +53,7 @@ function buttonKeyDown(event) {
 
   const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
 
-  if (!keyboardState.ignoreAddedTextButton.includes(node.dataset.keycode)) {
+  if (!keyboardState.ignoreAddedTextButtonsArray.includes(node.dataset.keycode)) {
     textArea.textContent += node.textContent;
   }
   if (event.code === 'Tab') {
