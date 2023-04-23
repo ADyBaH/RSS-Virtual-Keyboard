@@ -3,8 +3,6 @@ export function setToLocalStorage(key, language) {
   return language;
 }
 
-export function getLanguageToLocalStorage() {
-  const language = localStorage.getItem('languageKeyboard(ADyBaH4uK)');
-  if (language) { return language; }
-  return setToLocalStorage('languageKeyboard', 'en');
+export function getToLocalStorage(key) {
+  return localStorage.getItem(`${key}(ADyBaH4uK)`);
 }

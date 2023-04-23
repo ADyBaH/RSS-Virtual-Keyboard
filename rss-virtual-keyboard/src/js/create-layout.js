@@ -1,8 +1,8 @@
 import { createNode } from '../utils/create-node';
 import { createButtons, addedEvent } from './create-buttons';
 import {
-  // setToLocalStorage,
-  getLanguageToLocalStorage,
+  setToLocalStorage,
+  getToLocalStorage,
 } from '../utils/local-storage';
 import jsonButtons from '../data/keyboard.json';
 import { createFooter } from './create-footer';
@@ -14,7 +14,7 @@ const main = createNode({ tag: 'main', className: 'main', parent: root });
 createFooter(root);
 
 const keyboardState = {
-  languageKeyboard: getLanguageToLocalStorage(),
+  languageKeyboard: getToLocalStorage('languageKeyboard') || setToLocalStorage('languageKeyboard', 'en'),
   capslock: false,
   ignoreAddedTextButton: [
     'Backspace', 'Tab', 'Delete', 'CapsLock', 'Enter', 'ShiftLeft',
