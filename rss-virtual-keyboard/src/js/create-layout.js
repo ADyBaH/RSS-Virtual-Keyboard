@@ -1,13 +1,11 @@
 import { createNode } from '../utils/create-node';
 import { createButtons, addedEvent } from './create-buttons';
-import {
-  setToLocalStorage,
-  getFromLocalStorage,
-} from '../utils/local-storage';
+import { setToLocalStorage, getFromLocalStorage } from '../utils/local-storage';
 import jsonButtons from '../data/keyboard.json';
 import { createFooter } from './create-footer';
 import { createHeader } from './create-header';
 import { deleteLastCharacter } from '../utils/delete-lastCharacter';
+import { changeButtonValue } from '../utils/change-buttonsValue';
 
 const root = createNode({ className: 'root', parent: document.body });
 createHeader(root);
@@ -80,12 +78,32 @@ function buttonKeyDown(event) {
 
   if (event.code === 'Delete') textArea.textContent = '';
 
+  if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
+    changeButtonValue(
+      {
+        arrayNodes: arrayButtons,
+        arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
+        nameDataset: 'keyshift',
+      },
+    );
+  }
   node.classList.add('activeButton');
 }
 
 function buttonKeyUp(event) {
   if (!jsonButtons.keysCode.includes(event.code)) return;
   const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
+
+  if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
+    changeButtonValue(
+      {
+        arrayNodes: arrayButtons,
+        arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
+        nameDataset: 'key',
+      },
+    );
+  }
+
   node.classList.remove('activeButton');
 }
 
