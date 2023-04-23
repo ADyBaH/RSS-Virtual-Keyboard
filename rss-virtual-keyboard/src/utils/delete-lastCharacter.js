@@ -1,4 +1,4 @@
-export function deleteLastCharacter(length, string) {
-  if (length === 1) return '';
-  return string.slice(0, length - 1);
+export function deleteLastCharacter(string) {
+  if (string.length === 1) return '';
+  return string.slice(0, string.length - 1);
 }

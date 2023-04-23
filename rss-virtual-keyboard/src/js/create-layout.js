@@ -53,7 +53,7 @@ function clickOnButton(event) {
     textArea.textContent += '    ';
   }
   if (event.target.dataset.keycode === 'Backspace') {
-    textArea.textContent = deleteLastCharacter(textArea.textContent.length, textArea.textContent);
+    textArea.textContent = deleteLastCharacter(textArea.textContent);
   }
 }
 
@@ -72,7 +72,7 @@ function buttonKeyDown(event) {
   }
 
   if (event.code === 'Backspace') {
-    textArea.textContent = deleteLastCharacter(textArea.textContent.length, textArea.textContent);
+    textArea.textContent = deleteLastCharacter(textArea.textContent);
   }
 
   node.classList.add('activeButton');
