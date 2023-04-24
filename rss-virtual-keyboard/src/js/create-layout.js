@@ -51,6 +51,10 @@ function clickOnButton(event) {
     textArea.textContent += '    ';
   }
 
+  if (event.target.dataset.keycode === 'Enter') {
+    textArea.textContent += '\n';
+  }
+
   if (event.target.dataset.keycode === 'Backspace') {
     textArea.textContent = deleteLastCharacter(textArea.textContent);
   }
@@ -72,6 +76,10 @@ function buttonKeyDown(event) {
     textArea.textContent += '    ';
   }
 
+  if (event.code === 'Enter') {
+    textArea.textContent += '\n';
+  }
+
   if (event.code === 'Backspace') {
     textArea.textContent = deleteLastCharacter(textArea.textContent);
   }
@@ -79,14 +87,13 @@ function buttonKeyDown(event) {
   if (event.code === 'Delete') textArea.textContent = '';
 
   if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
-    changeButtonValue(
-      {
-        arrayNodes: arrayButtons,
-        arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
-        nameDataset: 'keyshift',
-      },
-    );
+    changeButtonValue({
+      arrayNodes: arrayButtons,
+      arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
+      nameDataset: 'keyshift',
+    });
   }
+
   node.classList.add('activeButton');
 }
 
@@ -95,13 +102,11 @@ function buttonKeyUp(event) {
   const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
 
   if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
-    changeButtonValue(
-      {
-        arrayNodes: arrayButtons,
-        arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
-        nameDataset: 'key',
-      },
-    );
+    changeButtonValue({
+      arrayNodes: arrayButtons,
+      arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
+      nameDataset: 'key',
+    });
   }
 
   node.classList.remove('activeButton');
