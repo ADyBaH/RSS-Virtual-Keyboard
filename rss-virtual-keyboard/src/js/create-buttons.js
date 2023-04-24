@@ -2,7 +2,7 @@ import { createNode } from '../utils/create-node';
 
 export function createButtons(
   {
-    arrayKeys, arrayKeysCapslock, arrayKeysShift, arrayKeysCode, parentNode,
+    arrayKeys, arrayKeysCapslock, arrayKeysShift, arrayKeysCode, arraykeysCapsAndShift, parentNode,
   },
 ) {
   return arrayKeys.map((_, index) => createNode({
@@ -13,6 +13,7 @@ export function createButtons(
       'data-key': arrayKeys[index],
       'data-keycapslock': arrayKeysCapslock[index],
       'data-keyshift': arrayKeysShift[index],
+      'data-keyshiftandshift': arraykeysCapsAndShift[index],
       'data-keycode': arrayKeysCode[index],
     },
     parent: parentNode,
