@@ -1,10 +1,8 @@
 import { createNode } from '../utils/create-node';
 
-export function createButtons(
-  {
-    arrayKeys, arrayKeysCapslock, arrayKeysShift, arrayKeysCode, arraykeysCapsAndShift, parentNode,
-  },
-) {
+export function createButtons({
+  arrayKeys, arrayKeysCapslock, arrayKeysShift, arrayKeysCode, arraykeysCapsAndShift, parentNode,
+}) {
   return arrayKeys.map((_, index) => createNode({
     tag: 'button',
     className: 'keyboardBlock_key',
