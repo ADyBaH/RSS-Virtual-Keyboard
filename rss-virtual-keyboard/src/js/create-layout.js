@@ -7,6 +7,7 @@ import { createHeader } from './create-header';
 import { deleteLastCharacter } from '../utils/delete-lastCharacter';
 import { changeButtonValue } from '../utils/change-buttonsValue';
 import { getDataSetString } from '../utils/getDatasetString';
+import { changeString } from '../utils/change-string';
 
 const root = createNode({ className: 'root', parent: document.body });
 createHeader(root);
@@ -25,13 +26,16 @@ const keyboardState = {
 
 const textArea = createNode({
   tag: 'textarea',
-  className: 'main__textBlock',
+  className: 'textarea-for-keyboard',
   parent: main,
+  attr: {
+    rows: 20,
+    cols: 70,
+  },
 });
 
 const keyboardBlock = createNode({
-  tag: 'div',
-  className: 'main__keyboardBlock',
+  className: 'keyboard-block',
   parent: main,
 });
 
@@ -45,29 +49,60 @@ const arrayButtons = createButtons({
 });
 
 function clickOnButton(event) {
+  event.preventDefault();
+  let textCursor = textArea.selectionEnd;
+  textArea.focus();
+
   if (!keyboardState.ignoreAddedTextButtonsArray.includes(event.target.dataset.keycode)) {
-    textArea.textContent += event.target.textContent;
+    textArea
+      .value = changeString(textArea.value, event.target.textContent, textArea.selectionStart);
+    textCursor += 1;
+    textArea.setSelectionRange(textCursor, textCursor);
   }
 
   if (event.target.dataset.keycode === 'Tab') {
-    event.preventDefault();
-    textArea.textContent += '    ';
+    textArea
+      .value = changeString(textArea.value, '    ', textArea.selectionStart);
+    textCursor += 4;
+    textArea.setSelectionRange(textCursor, textCursor);
   }
 
   if (event.target.dataset.keycode === 'Enter') {
-    textArea.textContent += '\n';
+    textArea
+      .value = changeString(textArea.value, '\n', textArea.selectionStart);
+    textCursor += textArea.value.length;
+    textArea.setSelectionRange(textCursor, textCursor);
   }
 
   if (event.target.dataset.keycode === 'Backspace') {
-    textArea.textContent = deleteLastCharacter(textArea.textContent);
+    textArea.value = changeString(textArea.value, '', textArea.selectionStart, 'removeBefore');
+    textCursor = !textCursor ? 0 : textCursor -= 1;
+    textArea.setSelectionRange(textCursor, textCursor);
   }
 
-  if (event.target.dataset.keycode === 'Delete') textArea.textContent = '';
+  if (event.target.dataset.keycode === 'Delete') {
+    textArea.value = changeString(textArea.value, '', textArea.selectionStart, 'removeAfter');
+    textCursor = !textCursor ? 0 : textCursor += 1;
+    textArea.setSelectionRange(textCursor, textCursor);
+  }
+
+  if (event.target.dataset.keycode === 'CapsLock') {
+    keyboardState.capslock = !keyboardState.capslock;
+
+    changeButtonValue({
+      arrayNodes: arrayButtons,
+      arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
+      nameDataset: getDataSetString(keyboardState.shift, keyboardState.capslock),
+    });
+    event.target.classList.toggle('activeButton');
+  }
 }
 
 function buttonKeyDown(event) {
-  textArea.blur();
   if (!jsonButtons.keysCode.includes(event.code)) return;
+
+  textArea.blur();
+  event.preventDefault();
 
   const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
 
@@ -87,7 +122,10 @@ function buttonKeyDown(event) {
     textArea.textContent = deleteLastCharacter(textArea.textContent);
   }
 
-  if (event.code === 'Delete') textArea.textContent = '';
+  // if (event.code === 'Delete') {
+  // console.log(textArea.selectionStart);
+  // textArea.textContent = '';
+  // }
 
   if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
     if (keyboardState.shift) return;
@@ -115,6 +153,7 @@ function buttonKeyDown(event) {
 
 function buttonKeyUp(event) {
   if (!jsonButtons.keysCode.includes(event.code)) return;
+  event.preventDefault();
   const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
 
   if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
@@ -129,7 +168,10 @@ function buttonKeyUp(event) {
 
   node.classList.remove('activeButton');
 }
-
-addedEvent({ nodesArray: arrayButtons, callback: clickOnButton, event: 'click' });
+// function kekw(v) {
+//   v.preventDefault();
+// }
+// addedEvent({ nodesArray: arrayButtons, callback: kekw, event: 'mouseup' });
+addedEvent({ nodesArray: arrayButtons, callback: clickOnButton, event: 'mousedown' });
 addedEvent({ nodesArray: [document.body], callback: buttonKeyDown, event: 'keydown' });
 addedEvent({ nodesArray: [document.body], callback: buttonKeyUp, event: 'keyup' });
