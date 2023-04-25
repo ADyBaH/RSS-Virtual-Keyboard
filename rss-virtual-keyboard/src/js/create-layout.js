@@ -17,7 +17,7 @@ createFooter(root);
 const keyboardState = {
   capslock: false,
   shift: false,
-  languageKeyboard: getFromLocalStorage('languageKeyboard') || setToLocalStorage('languageKeyboard', 'en'),
+  language: getFromLocalStorage('languageKeyboard') || setToLocalStorage('languageKeyboard', 'en'),
   ignoreAddedTextButtonsArray: [
     'Backspace', 'Tab', 'Delete', 'CapsLock', 'Enter', 'ShiftLeft',
     'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight', 'ControlRight',
@@ -41,9 +41,6 @@ const keyboardBlock = createNode({
 
 const arrayButtons = createButtons({
   arrayKeys: jsonButtons.en.keys,
-  // arrayKeysCapslock: jsonButtons.en.keysCapslock,
-  // arrayKeysShift: jsonButtons.en.keysShift,
-  // arraykeysCapsAndShift: jsonButtons.en.keysCapslockAndShift,
   arrayKeysCode: jsonButtons.keysCode,
   parentNode: keyboardBlock,
 });
@@ -88,13 +85,11 @@ function clickOnButton(event) {
 
   if (event.target.dataset.keycode === 'CapsLock') {
     keyboardState.capslock = !keyboardState.capslock;
-    // const lang = keyboardState.languageKeyboard;
-    // const statusKey = getDataSetString(keyboardState.shift, keyboardState.capslock);
     changeButtonValue({
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
       json: jsonButtons,
-      lang: keyboardState.languageKeyboard,
+      lang: keyboardState.language,
       statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
     });
     event.target.classList.toggle('activeButton');
@@ -137,7 +132,7 @@ function buttonKeyDown(event) {
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
       json: jsonButtons,
-      lang: keyboardState.languageKeyboard,
+      lang: keyboardState.language,
       statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
     });
   }
@@ -149,7 +144,7 @@ function buttonKeyDown(event) {
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
       json: jsonButtons,
-      lang: keyboardState.languageKeyboard,
+      lang: keyboardState.language,
       statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
     });
     node.classList.toggle('activeButton');
@@ -169,7 +164,7 @@ function buttonKeyUp(event) {
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
       json: jsonButtons,
-      lang: keyboardState.languageKeyboard,
+      lang: keyboardState.language,
       statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
     });
   }
@@ -177,10 +172,7 @@ function buttonKeyUp(event) {
 
   node.classList.remove('activeButton');
 }
-// function kekw(v) {
-//   v.preventDefault();
-// }
-// addedEvent({ nodesArray: arrayButtons, callback: kekw, event: 'mouseup' });
+
 addedEvent({ nodesArray: arrayButtons, callback: clickOnButton, event: 'mousedown' });
 addedEvent({ nodesArray: [document.body], callback: buttonKeyDown, event: 'keydown' });
 addedEvent({ nodesArray: [document.body], callback: buttonKeyUp, event: 'keyup' });
