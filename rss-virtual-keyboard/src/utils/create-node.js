@@ -1,16 +1,10 @@
-export function createNode(
-  {
-    tag = 'div', className, textContent = '', attr = '', parent = '',
-  },
-) {
+export function createNode({
+  tag = 'div', className, textContent = '', attr = '', parent = '',
+}) {
   const node = document.createElement(tag);
-  if (className) {
-    if (typeof className === 'string') {
-      node.className = className;
-    } else {
-      className.forEach((string) => node.classList.add(string));
-    }
-  }
+
+  if (className) node.className = className;
+
   node.textContent = textContent;
   if (attr) {
     Object.keys(attr)
