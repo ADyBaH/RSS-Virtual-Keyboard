@@ -41,9 +41,9 @@ const keyboardBlock = createNode({
 
 const arrayButtons = createButtons({
   arrayKeys: jsonButtons.en.keys,
-  arrayKeysCapslock: jsonButtons.en.keysCapslock,
-  arrayKeysShift: jsonButtons.en.keysShift,
-  arraykeysCapsAndShift: jsonButtons.en.keysCapslockAndShift,
+  // arrayKeysCapslock: jsonButtons.en.keysCapslock,
+  // arrayKeysShift: jsonButtons.en.keysShift,
+  // arraykeysCapsAndShift: jsonButtons.en.keysCapslockAndShift,
   arrayKeysCode: jsonButtons.keysCode,
   parentNode: keyboardBlock,
 });
@@ -88,11 +88,14 @@ function clickOnButton(event) {
 
   if (event.target.dataset.keycode === 'CapsLock') {
     keyboardState.capslock = !keyboardState.capslock;
-
+    // const lang = keyboardState.languageKeyboard;
+    // const statusKey = getDataSetString(keyboardState.shift, keyboardState.capslock);
     changeButtonValue({
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
-      nameDataset: getDataSetString(keyboardState.shift, keyboardState.capslock),
+      json: jsonButtons,
+      lang: keyboardState.languageKeyboard,
+      statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
     });
     event.target.classList.toggle('activeButton');
   }
@@ -133,7 +136,9 @@ function buttonKeyDown(event) {
     changeButtonValue({
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
-      nameDataset: getDataSetString(keyboardState.shift, keyboardState.capslock),
+      json: jsonButtons,
+      lang: keyboardState.languageKeyboard,
+      statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
     });
   }
 
@@ -143,7 +148,9 @@ function buttonKeyDown(event) {
     changeButtonValue({
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
-      nameDataset: getDataSetString(keyboardState.shift, keyboardState.capslock),
+      json: jsonButtons,
+      lang: keyboardState.languageKeyboard,
+      statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
     });
     node.classList.toggle('activeButton');
     return;
@@ -161,7 +168,9 @@ function buttonKeyUp(event) {
     changeButtonValue({
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
-      nameDataset: getDataSetString(keyboardState.shift, keyboardState.capslock),
+      json: jsonButtons,
+      lang: keyboardState.languageKeyboard,
+      statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
     });
   }
   if (event.code === 'CapsLock') return;

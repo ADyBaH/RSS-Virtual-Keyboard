@@ -1,6 +1,6 @@
 export function getDataSetString(booleanShift, booleanCapslock) {
-  if (booleanShift && booleanCapslock) return 'keyshiftandshift';
-  if (booleanCapslock) return 'keycapslock';
-  if (booleanShift) return 'keyshift';
-  return 'key';
+  if (booleanShift && booleanCapslock) return 'keysCapslockAndShift';
+  if (booleanCapslock) return 'keysCapslock';
+  if (booleanShift) return 'keysShift';
+  return 'keys';
 }
