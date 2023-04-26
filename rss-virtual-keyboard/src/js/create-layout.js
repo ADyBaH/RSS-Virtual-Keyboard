@@ -4,10 +4,9 @@ import { setToLocalStorage, getFromLocalStorage } from '../utils/local-storage';
 import jsonButtons from '../data/keyboard.json';
 import { createFooter } from './create-footer';
 import { createHeader } from './create-header';
-import { deleteLastCharacter } from '../utils/delete-lastCharacter';
 import { changeButtonValue } from '../utils/change-buttonsValue';
 import { getDataSetString } from '../utils/getDatasetString';
-import { changeString } from '../utils/change-string';
+import { setTextArea } from '../utils/set-text-area';
 
 const root = createNode({ className: 'root', parent: document.body });
 createHeader(root);
@@ -29,6 +28,7 @@ const textArea = createNode({
   className: 'textarea-for-keyboard',
   parent: main,
   attr: {
+    autocomplete: 'off',
     rows: 20,
     cols: 70,
   },
@@ -52,36 +52,27 @@ function clickOnButton(event) {
   textArea.focus();
 
   if (!keyboardState.ignoreAddedTextButtonsArray.includes(target.dataset.keycode)) {
-    textArea
-      .value = changeString(textArea.value, target.textContent, textArea.selectionStart);
     textCursor += 1;
-    textArea.setSelectionRange(textCursor, textCursor);
+    setTextArea(textArea, textArea.selectionEnd, target.textContent, textCursor);
   }
 
   if (target.dataset.keycode === 'Tab') {
-    textArea
-      .value = changeString(textArea.value, '    ', textArea.selectionStart);
     textCursor += 4;
-    textArea.setSelectionRange(textCursor, textCursor);
+    setTextArea(textArea, textArea.selectionEnd, '    ', textCursor);
   }
 
   if (target.dataset.keycode === 'Enter') {
-    textArea
-      .value = changeString(textArea.value, '\n', textArea.selectionStart);
-    textCursor += textArea.value.length;
-    textArea.setSelectionRange(textCursor, textCursor);
+    textCursor += 1;
+    setTextArea(textArea, textArea.selectionEnd, '\n', textCursor);
   }
 
   if (target.dataset.keycode === 'Backspace') {
-    textArea.value = changeString(textArea.value, '', textArea.selectionStart, 'removeBefore');
     textCursor = !textCursor ? 0 : textCursor -= 1;
-    textArea.setSelectionRange(textCursor, textCursor);
+    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeBefore');
   }
 
   if (target.dataset.keycode === 'Delete') {
-    textArea.value = changeString(textArea.value, '', textArea.selectionStart, 'removeAfter');
-    textCursor = !textCursor ? 0 : textCursor += 1;
-    textArea.setSelectionRange(textCursor, textCursor);
+    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeAfter');
   }
 
   if (target.dataset.keycode === 'CapsLock') {
@@ -101,8 +92,8 @@ function buttonKeyDown(event) {
   const { code } = event;
 
   if (!jsonButtons.keysCode.includes(code)) return;
-
-  textArea.blur();
+  textArea.focus();
+  let textCursor = textArea.selectionEnd;
   event.preventDefault();
 
   if (code === 'ShiftRight' || code === 'ShiftLeft') {
@@ -125,25 +116,27 @@ function buttonKeyDown(event) {
   const node = arrayButtons.find((button) => button.dataset.keycode === code);
 
   if (code === 'Tab') {
-    event.preventDefault();
-    textArea.textContent += '    ';
+    textCursor += 4;
+    setTextArea(textArea, textArea.selectionEnd, '    ', textCursor);
   }
   if (!keyboardState.ignoreAddedTextButtonsArray.includes(node.dataset.keycode)) {
-    textArea.textContent += node.textContent;
+    textCursor += 1;
+    setTextArea(textArea, textArea.selectionEnd, node.textContent, textCursor);
   }
 
   if (code === 'Enter') {
-    textArea.textContent += '\n';
+    textCursor += 1;
+    setTextArea(textArea, textArea.selectionEnd, '\n', textCursor);
   }
 
   if (code === 'Backspace') {
-    textArea.textContent = deleteLastCharacter(textArea.textContent);
+    textCursor = !textCursor ? 0 : textCursor -= 1;
+    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeBefore');
   }
 
-  // if (event.code === 'Delete') {
-  // console.log(textArea.selectionStart);
-  // textArea.textContent = '';
-  // }
+  if (event.code === 'Delete') {
+    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeAfter');
+  }
 
   if (code === 'CapsLock') {
     keyboardState.capslock = !keyboardState.capslock;
@@ -186,6 +179,7 @@ function buttonKeyUp(event) {
   if (code === 'CapsLock') return;
 
   node.classList.remove('activeButton');
+  textArea.blur();
 }
 
 addedEvent({ nodesArray: arrayButtons, callback: clickOnButton, event: 'mousedown' });
