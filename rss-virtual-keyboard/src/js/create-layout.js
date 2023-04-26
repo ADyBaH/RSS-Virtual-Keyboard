@@ -102,6 +102,23 @@ function buttonKeyDown(event) {
   textArea.blur();
   event.preventDefault();
 
+  if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
+    const shiftLeft = arrayButtons.find((button) => button.dataset.keycode === 'ShiftLeft');
+    const shiftRight = arrayButtons.find((button) => button.dataset.keycode === 'ShiftRight');
+    if (keyboardState.shift) return;
+    keyboardState.shift = !keyboardState.shift;
+    changeButtonValue({
+      arrayNodes: arrayButtons,
+      arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
+      json: jsonButtons,
+      lang: keyboardState.language,
+      statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
+    });
+    shiftLeft.classList.add('activeButton');
+    shiftRight.classList.add('activeButton');
+    return;
+  }
+
   const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
 
   if (event.code === 'Tab') {
@@ -125,18 +142,6 @@ function buttonKeyDown(event) {
   // textArea.textContent = '';
   // }
 
-  if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
-    if (keyboardState.shift) return;
-    keyboardState.shift = !keyboardState.shift;
-    changeButtonValue({
-      arrayNodes: arrayButtons,
-      arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
-      json: jsonButtons,
-      lang: keyboardState.language,
-      statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
-    });
-  }
-
   if (event.code === 'CapsLock') {
     keyboardState.capslock = !keyboardState.capslock;
 
@@ -156,9 +161,10 @@ function buttonKeyDown(event) {
 function buttonKeyUp(event) {
   if (!jsonButtons.keysCode.includes(event.code)) return;
   event.preventDefault();
-  const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
 
   if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
+    const shiftLeft = arrayButtons.find((button) => button.dataset.keycode === 'ShiftLeft');
+    const shiftRight = arrayButtons.find((button) => button.dataset.keycode === 'ShiftRight');
     keyboardState.shift = !keyboardState.shift;
     changeButtonValue({
       arrayNodes: arrayButtons,
@@ -167,7 +173,12 @@ function buttonKeyUp(event) {
       lang: keyboardState.language,
       statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
     });
+    shiftLeft.classList.remove('activeButton');
+    shiftRight.classList.remove('activeButton');
+    return;
   }
+  const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
+
   if (event.code === 'CapsLock') return;
 
   node.classList.remove('activeButton');
