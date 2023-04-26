@@ -47,43 +47,44 @@ const arrayButtons = createButtons({
 
 function clickOnButton(event) {
   event.preventDefault();
+  const { target } = event;
   let textCursor = textArea.selectionEnd;
   textArea.focus();
 
-  if (!keyboardState.ignoreAddedTextButtonsArray.includes(event.target.dataset.keycode)) {
+  if (!keyboardState.ignoreAddedTextButtonsArray.includes(target.dataset.keycode)) {
     textArea
-      .value = changeString(textArea.value, event.target.textContent, textArea.selectionStart);
+      .value = changeString(textArea.value, target.textContent, textArea.selectionStart);
     textCursor += 1;
     textArea.setSelectionRange(textCursor, textCursor);
   }
 
-  if (event.target.dataset.keycode === 'Tab') {
+  if (target.dataset.keycode === 'Tab') {
     textArea
       .value = changeString(textArea.value, '    ', textArea.selectionStart);
     textCursor += 4;
     textArea.setSelectionRange(textCursor, textCursor);
   }
 
-  if (event.target.dataset.keycode === 'Enter') {
+  if (target.dataset.keycode === 'Enter') {
     textArea
       .value = changeString(textArea.value, '\n', textArea.selectionStart);
     textCursor += textArea.value.length;
     textArea.setSelectionRange(textCursor, textCursor);
   }
 
-  if (event.target.dataset.keycode === 'Backspace') {
+  if (target.dataset.keycode === 'Backspace') {
     textArea.value = changeString(textArea.value, '', textArea.selectionStart, 'removeBefore');
     textCursor = !textCursor ? 0 : textCursor -= 1;
     textArea.setSelectionRange(textCursor, textCursor);
   }
 
-  if (event.target.dataset.keycode === 'Delete') {
+  if (target.dataset.keycode === 'Delete') {
     textArea.value = changeString(textArea.value, '', textArea.selectionStart, 'removeAfter');
     textCursor = !textCursor ? 0 : textCursor += 1;
     textArea.setSelectionRange(textCursor, textCursor);
   }
 
-  if (event.target.dataset.keycode === 'CapsLock') {
+  if (target.dataset.keycode === 'CapsLock') {
     keyboardState.capslock = !keyboardState.capslock;
     changeButtonValue({
       arrayNodes: arrayButtons,
@@ -92,17 +93,19 @@ function clickOnButton(event) {
       lang: keyboardState.language,
       statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
     });
-    event.target.classList.toggle('activeButton');
+    target.classList.toggle('activeButton');
   }
 }
 
 function buttonKeyDown(event) {
-  if (!jsonButtons.keysCode.includes(event.code)) return;
+  const { code } = event;
+
+  if (!jsonButtons.keysCode.includes(code)) return;
 
   textArea.blur();
   event.preventDefault();
 
-  if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
+  if (code === 'ShiftRight' || code === 'ShiftLeft') {
     const shiftLeft = arrayButtons.find((button) => button.dataset.keycode === 'ShiftLeft');
     const shiftRight = arrayButtons.find((button) => button.dataset.keycode === 'ShiftRight');
     if (keyboardState.shift) return;
@@ -119,9 +122,9 @@ function buttonKeyDown(event) {
     return;
   }
 
-  const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
+  const node = arrayButtons.find((button) => button.dataset.keycode === code);
 
-  if (event.code === 'Tab') {
+  if (code === 'Tab') {
     event.preventDefault();
     textArea.textContent += '    ';
   }
@@ -129,11 +132,11 @@ function buttonKeyDown(event) {
     textArea.textContent += node.textContent;
   }
 
-  if (event.code === 'Enter') {
+  if (code === 'Enter') {
     textArea.textContent += '\n';
   }
 
-  if (event.code === 'Backspace') {
+  if (code === 'Backspace') {
     textArea.textContent = deleteLastCharacter(textArea.textContent);
   }
 
@@ -142,7 +145,7 @@ function buttonKeyDown(event) {
   // textArea.textContent = '';
   // }
 
-  if (event.code === 'CapsLock') {
+  if (code === 'CapsLock') {
     keyboardState.capslock = !keyboardState.capslock;
 
     changeButtonValue({
@@ -159,10 +162,11 @@ function buttonKeyDown(event) {
 }
 
 function buttonKeyUp(event) {
+  const { code } = event;
   if (!jsonButtons.keysCode.includes(event.code)) return;
   event.preventDefault();
 
-  if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
+  if (code === 'ShiftRight' || code === 'ShiftLeft') {
     const shiftLeft = arrayButtons.find((button) => button.dataset.keycode === 'ShiftLeft');
     const shiftRight = arrayButtons.find((button) => button.dataset.keycode === 'ShiftRight');
     keyboardState.shift = !keyboardState.shift;
@@ -177,9 +181,9 @@ function buttonKeyUp(event) {
     shiftRight.classList.remove('activeButton');
     return;
   }
-  const node = arrayButtons.find((button) => button.dataset.keycode === event.code);
+  const node = arrayButtons.find((button) => button.dataset.keycode === code);
 
-  if (event.code === 'CapsLock') return;
+  if (code === 'CapsLock') return;
 
   node.classList.remove('activeButton');
 }
