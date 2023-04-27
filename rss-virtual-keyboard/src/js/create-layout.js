@@ -94,7 +94,6 @@ function onClickOnButton(event) {
 function onButtonKeyDown(event) {
   const { code } = event;
   if (!jsonButtons.keysCode.includes(code)) return;
-
   textArea.focus();
   const textCursor = textArea.selectionEnd;
   event.preventDefault();
@@ -104,14 +103,18 @@ function onButtonKeyDown(event) {
     const shiftLeft = buttons.find((button) => button.dataset.keycode === 'ShiftLeft');
     const shiftRight = buttons.find((button) => button.dataset.keycode === 'ShiftRight');
 
+    if (shiftLeft && shiftRight) {
+      shiftLeft.classList.add('activeButton');
+      shiftRight.classList.add('activeButton');
+    }
+
     keyboardState.isShift = true;
     changeButtonsTextContent({
       buttons,
       arrayIgnoreCode: keyboardState.commandKey,
       arrayValues: getArrayFromJson(keyboardState),
     });
-    shiftLeft.classList.add('activeButton');
-    shiftRight.classList.add('activeButton');
+
     return;
   }
 
