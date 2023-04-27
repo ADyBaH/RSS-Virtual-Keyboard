@@ -61,27 +61,23 @@ function onClickOnButton(event) {
   textArea.focus();
 
   if (!isCommandKey(target.dataset.keycode, keyboardState)) {
-    textCursor += 1;
-    setTextArea(textArea, textArea.selectionEnd, target.textContent, textCursor);
+    setTextArea(textArea, textCursor, target.textContent, textCursor + 1);
   }
 
   if (target.dataset.keycode === 'Tab') {
-    textCursor += 4;
-    setTextArea(textArea, textArea.selectionEnd, '    ', textCursor);
+    setTextArea(textArea, textCursor, '    ', textCursor + 4);
   }
 
   if (target.dataset.keycode === 'Enter') {
-    textCursor += 1;
-    setTextArea(textArea, textArea.selectionEnd, '\n', textCursor);
+    setTextArea(textArea, textCursor, '\n', textCursor + 1);
   }
 
   if (target.dataset.keycode === 'Backspace') {
-    textCursor = !textCursor ? 0 : textCursor -= 1;
-    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeCharacterBeforeCursor');
+    setTextArea(textArea, textCursor, '', !textCursor ? 0 : textCursor -= 1, 'removeCharacterBeforeCursor');
   }
 
   if (target.dataset.keycode === 'Delete') {
-    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeCharacterAfterCursor');
+    setTextArea(textArea, textCursor, '', textCursor, 'removeCharacterAfterCursor');
   }
 
   if (target.dataset.keycode === 'CapsLock') {
@@ -100,7 +96,7 @@ function onButtonKeyDown(event) {
   if (!jsonButtons.keysCode.includes(code)) return;
 
   textArea.focus();
-  let textCursor = textArea.selectionEnd;
+  const textCursor = textArea.selectionEnd;
   event.preventDefault();
 
   if (code === 'ShiftRight' || code === 'ShiftLeft') {
@@ -121,23 +117,19 @@ function onButtonKeyDown(event) {
 
   const activeButton = buttons.find((button) => button.dataset.keycode === code);
 
-  if (code === 'Tab') {
-    textCursor += 4;
-    setTextArea(textArea, textArea.selectionEnd, '    ', textCursor);
-  }
   if (!isCommandKey(activeButton.dataset.keycode, keyboardState)) {
-    textCursor += 1;
-    setTextArea(textArea, textArea.selectionEnd, activeButton.textContent, textCursor);
+    setTextArea(textArea, textCursor, activeButton.textContent, textCursor + 1);
+  }
+  if (code === 'Tab') {
+    setTextArea(textArea, textCursor, '    ', textCursor + 4);
   }
 
   if (code === 'Enter') {
-    textCursor += 1;
-    setTextArea(textArea, textArea.selectionEnd, '\n', textCursor);
+    setTextArea(textArea, textCursor, '\n', textCursor + 1);
   }
 
   if (code === 'Backspace') {
-    textCursor = !textCursor ? 0 : textCursor -= 1;
-    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeCharacterBeforeCursor');
+    setTextArea(textArea, textCursor, '', !textCursor ? 0 : textCursor - 1, 'removeCharacterBeforeCursor');
   }
 
   if (event.code === 'Delete') {
