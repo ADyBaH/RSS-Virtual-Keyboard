@@ -54,7 +54,7 @@ const buttons = createButtons({
   parentNode: keyboardBlock,
 });
 
-function onClickOnButton(event) {
+function onClickButton(event) {
   event.preventDefault();
   const { target } = event;
   let textCursor = textArea.selectionEnd;
@@ -184,6 +184,6 @@ function onButtonKeyUp(event) {
   textArea.blur();
 }
 
-addedEvent({ nodesArray: buttons, callback: onClickOnButton, event: 'mousedown' });
+addedEvent({ nodesArray: buttons, callback: onClickButton, event: 'mousedown' });
 addedEvent({ nodesArray: [document.body], callback: onButtonKeyDown, event: 'keydown' });
 addedEvent({ nodesArray: [document.body], callback: onButtonKeyUp, event: 'keyup' });
