@@ -5,7 +5,7 @@ import jsonButtons from '../data/keyboard.json';
 import { createFooter } from './create-footer';
 import { createHeader } from './create-header';
 import { changeButtonsTextContent } from '../utils/change-buttons-text-content';
-import { getDataSetString } from '../utils/getDatasetString';
+import { getDataSetString } from '../utils/get-dataset-string';
 import { setTextArea } from '../utils/set-text-area';
 
 const root = createNode({ className: 'root', parent: document.body });
