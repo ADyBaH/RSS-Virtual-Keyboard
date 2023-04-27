@@ -48,7 +48,7 @@ const keyboardBlock = createNode({
   parent: main,
 });
 
-const arrayButtons = createButtons({
+const buttons = createButtons({
   arrayKeys: jsonButtons.en.keys,
   arrayKeysCode: jsonButtons.keysCode,
   parentNode: keyboardBlock,
@@ -87,7 +87,7 @@ function onClickOnButton(event) {
   if (target.dataset.keycode === 'CapsLock') {
     keyboardState.isCapslock = !keyboardState.isCapslock;
     changeButtonsTextContent({
-      buttons: arrayButtons,
+      buttons,
       arrayIgnoreCode: keyboardState.commandKey,
       arrayValues: getArrayFromJson(keyboardState),
     });
@@ -105,12 +105,12 @@ function onButtonKeyDown(event) {
 
   if (code === 'ShiftRight' || code === 'ShiftLeft') {
     if (keyboardState.isShift) return;
-    const shiftLeft = arrayButtons.find((button) => button.dataset.keycode === 'ShiftLeft');
-    const shiftRight = arrayButtons.find((button) => button.dataset.keycode === 'ShiftRight');
+    const shiftLeft = buttons.find((button) => button.dataset.keycode === 'ShiftLeft');
+    const shiftRight = buttons.find((button) => button.dataset.keycode === 'ShiftRight');
 
     keyboardState.isShift = true;
     changeButtonsTextContent({
-      buttons: arrayButtons,
+      buttons,
       arrayIgnoreCode: keyboardState.commandKey,
       arrayValues: getArrayFromJson(keyboardState),
     });
@@ -119,7 +119,7 @@ function onButtonKeyDown(event) {
     return;
   }
 
-  const activeButton = arrayButtons.find((button) => button.dataset.keycode === code);
+  const activeButton = buttons.find((button) => button.dataset.keycode === code);
 
   if (code === 'Tab') {
     textCursor += 4;
@@ -148,7 +148,7 @@ function onButtonKeyDown(event) {
     keyboardState.isCapslock = !keyboardState.isCapslock;
 
     changeButtonsTextContent({
-      buttons: arrayButtons,
+      buttons,
       arrayIgnoreCode: keyboardState.commandKey,
       arrayValues: getArrayFromJson(keyboardState),
     });
@@ -166,8 +166,8 @@ function onButtonKeyUp(event) {
   event.preventDefault();
 
   if (code === 'ShiftRight' || code === 'ShiftLeft') {
-    const shiftLeft = arrayButtons.find((button) => button.dataset.keycode === 'ShiftLeft');
-    const shiftRight = arrayButtons.find((button) => button.dataset.keycode === 'ShiftRight');
+    const shiftLeft = buttons.find((button) => button.dataset.keycode === 'ShiftLeft');
+    const shiftRight = buttons.find((button) => button.dataset.keycode === 'ShiftRight');
 
     if (shiftLeft && shiftRight) {
       shiftLeft.classList.remove('activeButton');
@@ -176,19 +176,19 @@ function onButtonKeyUp(event) {
 
     keyboardState.isShift = false;
     changeButtonsTextContent({
-      buttons: arrayButtons,
+      buttons,
       arrayIgnoreCode: keyboardState.commandKey,
       arrayValues: getArrayFromJson(keyboardState),
     });
 
     return;
   }
-  const activeButton = arrayButtons.find((button) => button.dataset.keycode === code);
+  const activeButton = buttons.find((button) => button.dataset.keycode === code);
 
   activeButton.classList.remove('activeButton');
   textArea.blur();
 }
 
-addedEvent({ nodesArray: arrayButtons, callback: onClickOnButton, event: 'mousedown' });
+addedEvent({ nodesArray: buttons, callback: onClickOnButton, event: 'mousedown' });
 addedEvent({ nodesArray: [document.body], callback: onButtonKeyDown, event: 'keydown' });
 addedEvent({ nodesArray: [document.body], callback: onButtonKeyUp, event: 'keyup' });
