@@ -17,17 +17,20 @@ const keyboardState = {
   isCapslock: false,
   isShift: false,
   language: getFromLocalStorage('languageKeyboard') ?? setToLocalStorage('languageKeyboard', 'en'),
-  ignoreAddedTextButtonsArray: [
+  commandKey: [
     'Backspace', 'Tab', 'Delete', 'CapsLock', 'Enter', 'ShiftLeft',
     'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight', 'ControlRight',
   ],
   BUTTONS_KEYS: jsonButtons,
 };
+
 function getArrayFromJson({
   isCapslock, isShift, BUTTONS_KEYS, language,
 }) {
   return BUTTONS_KEYS[language][getDataSetString(isShift, isCapslock)];
 }
+
+const isCommandKey = (keyCodeButton, { commandKey }) => commandKey.includes(keyCodeButton);
 
 const textArea = createNode({
   tag: 'textarea',
@@ -57,7 +60,7 @@ function onClickOnButton(event) {
   let textCursor = textArea.selectionEnd;
   textArea.focus();
 
-  if (!keyboardState.ignoreAddedTextButtonsArray.includes(target.dataset.keycode)) {
+  if (!isCommandKey(target.dataset.keycode, keyboardState)) {
     textCursor += 1;
     setTextArea(textArea, textArea.selectionEnd, target.textContent, textCursor);
   }
@@ -85,7 +88,7 @@ function onClickOnButton(event) {
     keyboardState.isCapslock = !keyboardState.isCapslock;
     changeButtonsTextContent({
       buttons: arrayButtons,
-      arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
+      arrayIgnoreCode: keyboardState.commandKey,
       arrayValues: getArrayFromJson(keyboardState),
     });
     target.classList.toggle('activeButton');
@@ -94,8 +97,8 @@ function onClickOnButton(event) {
 
 function onButtonKeyDown(event) {
   const { code } = event;
-
   if (!jsonButtons.keysCode.includes(code)) return;
+
   textArea.focus();
   let textCursor = textArea.selectionEnd;
   event.preventDefault();
@@ -108,7 +111,7 @@ function onButtonKeyDown(event) {
     keyboardState.isShift = true;
     changeButtonsTextContent({
       buttons: arrayButtons,
-      arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
+      arrayIgnoreCode: keyboardState.commandKey,
       arrayValues: getArrayFromJson(keyboardState),
     });
     shiftLeft.classList.add('activeButton');
@@ -122,7 +125,7 @@ function onButtonKeyDown(event) {
     textCursor += 4;
     setTextArea(textArea, textArea.selectionEnd, '    ', textCursor);
   }
-  if (!keyboardState.ignoreAddedTextButtonsArray.includes(activeButton.dataset.keycode)) {
+  if (!isCommandKey(activeButton.dataset.keycode, keyboardState)) {
     textCursor += 1;
     setTextArea(textArea, textArea.selectionEnd, activeButton.textContent, textCursor);
   }
@@ -146,7 +149,7 @@ function onButtonKeyDown(event) {
 
     changeButtonsTextContent({
       buttons: arrayButtons,
-      arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
+      arrayIgnoreCode: keyboardState.commandKey,
       arrayValues: getArrayFromJson(keyboardState),
     });
     activeButton.classList.toggle('activeButton');
@@ -174,7 +177,7 @@ function onButtonKeyUp(event) {
     keyboardState.isShift = false;
     changeButtonsTextContent({
       buttons: arrayButtons,
-      arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
+      arrayIgnoreCode: keyboardState.commandKey,
       arrayValues: getArrayFromJson(keyboardState),
     });
 
