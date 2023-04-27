@@ -1,4 +1,4 @@
-export function changeButtonsValue({
+export function changeButtonsTextContent({
   buttons,
   arrayIgnoreCode,
   arrayValues,

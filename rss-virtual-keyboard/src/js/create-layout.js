@@ -4,7 +4,7 @@ import { setToLocalStorage, getFromLocalStorage } from '../utils/local-storage';
 import jsonButtons from '../data/keyboard.json';
 import { createFooter } from './create-footer';
 import { createHeader } from './create-header';
-import { changeButtonsTextContent } from '../utils/change-buttonsValue';
+import { changeButtonsTextContent } from '../utils/change-buttons-text-content';
 import { getDataSetString } from '../utils/getDatasetString';
 import { setTextArea } from '../utils/set-text-area';
 
