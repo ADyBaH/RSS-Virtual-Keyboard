@@ -4,7 +4,7 @@ import { setToLocalStorage, getFromLocalStorage } from '../utils/local-storage';
 import jsonButtons from '../data/keyboard.json';
 import { createFooter } from './create-footer';
 import { createHeader } from './create-header';
-import { changeButtonValue } from '../utils/change-buttonsValue';
+import { changeButtonsValue } from '../utils/change-buttonsValue';
 import { getDataSetString } from '../utils/getDatasetString';
 import { setTextArea } from '../utils/set-text-area';
 
@@ -22,6 +22,10 @@ const keyboardState = {
     'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight', 'ControlRight',
   ],
 };
+
+function getArrayFromJson(json, language) {
+  return json[language][getDataSetString(keyboardState.isShift, keyboardState.isCapslock)];
+}
 
 const textArea = createNode({
   tag: 'textarea',
@@ -77,12 +81,10 @@ function onClickOnButton(event) {
 
   if (target.dataset.keycode === 'CapsLock') {
     keyboardState.isCapslock = !keyboardState.isCapslock;
-    changeButtonValue({
-      arrayNodes: arrayButtons,
+    changeButtonsValue({
+      buttons: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
-      json: jsonButtons,
-      lang: keyboardState.language,
-      statusKeyboard: getDataSetString(keyboardState.isShift, keyboardState.isCapslock),
+      arrayValues: getArrayFromJson(jsonButtons, keyboardState.language),
     });
     target.classList.toggle('activeButton');
   }
@@ -102,18 +104,16 @@ function onButtonKeyDown(event) {
     const shiftRight = arrayButtons.find((button) => button.dataset.keycode === 'ShiftRight');
 
     keyboardState.isShift = true;
-    changeButtonValue({
-      arrayNodes: arrayButtons,
+    changeButtonsValue({
+      buttons: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
-      json: jsonButtons,
-      lang: keyboardState.language,
-      statusKeyboard: getDataSetString(keyboardState.isShift, keyboardState.isCapslock),
+      arrayValues: getArrayFromJson(jsonButtons, keyboardState.language),
     });
     shiftLeft.classList.add('activeButton');
     shiftRight.classList.add('activeButton');
     return;
   }
-  // переименовать
+
   const activeButton = arrayButtons.find((button) => button.dataset.keycode === code);
 
   if (code === 'Tab') {
@@ -142,12 +142,10 @@ function onButtonKeyDown(event) {
   if (code === 'CapsLock') {
     keyboardState.isCapslock = !keyboardState.isCapslock;
 
-    changeButtonValue({
-      arrayNodes: arrayButtons,
+    changeButtonsValue({
+      buttons: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
-      json: jsonButtons,
-      lang: keyboardState.language,
-      statusKeyboard: getDataSetString(keyboardState.isShift, keyboardState.isCapslock),
+      arrayValues: getArrayFromJson(jsonButtons, keyboardState.language),
     });
     activeButton.classList.toggle('activeButton');
     return;
@@ -172,12 +170,10 @@ function onButtonKeyUp(event) {
     }
 
     keyboardState.isShift = false;
-    changeButtonValue({
-      arrayNodes: arrayButtons,
+    changeButtonsValue({
+      buttons: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
-      json: jsonButtons,
-      lang: keyboardState.language,
-      statusKeyboard: getDataSetString(keyboardState.isShift, keyboardState.isCapslock),
+      arrayValues: getArrayFromJson(jsonButtons, keyboardState.language),
     });
 
     return;

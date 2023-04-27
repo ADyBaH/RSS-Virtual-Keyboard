@@ -1,11 +1,13 @@
-export function changeButtonValue({
-  arrayNodes, arrayIgnoreCode, json, lang, statusKeyboard,
+export function changeButtonsValue({
+  buttons,
+  arrayIgnoreCode,
+  arrayValues,
 }) {
-  if (!arrayNodes) return;
-  arrayNodes.forEach((v, index) => {
-    const button = v;
-    if (!arrayIgnoreCode.includes(v.dataset.keycode)) {
-      button.textContent = json[lang][statusKeyboard][index];
+  if (!buttons) return;
+  buttons.forEach((button, index) => {
+    const currentButton = button;
+    if (!arrayIgnoreCode.includes(button.dataset.keycode)) {
+      currentButton.textContent = arrayValues[index];
     }
   });
 }
