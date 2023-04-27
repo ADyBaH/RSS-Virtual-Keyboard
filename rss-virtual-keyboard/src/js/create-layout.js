@@ -30,7 +30,7 @@ function getArrayFromJson({
   return BUTTONS_KEYS[language][getDataSetString(isShift, isCapslock)];
 }
 
-const isCommandKey = (keyCodeButton, { commandKey }) => commandKey.includes(keyCodeButton);
+export const isCommandKey = (keyCodeButton, { commandKey }) => commandKey.includes(keyCodeButton);
 
 const textArea = createNode({
   tag: 'textarea',
@@ -77,11 +77,11 @@ function onClickOnButton(event) {
 
   if (target.dataset.keycode === 'Backspace') {
     textCursor = !textCursor ? 0 : textCursor -= 1;
-    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeBefore');
+    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeCharacterBeforeCursor');
   }
 
   if (target.dataset.keycode === 'Delete') {
-    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeAfter');
+    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeCharacterAfterCursor');
   }
 
   if (target.dataset.keycode === 'CapsLock') {
@@ -137,11 +137,11 @@ function onButtonKeyDown(event) {
 
   if (code === 'Backspace') {
     textCursor = !textCursor ? 0 : textCursor -= 1;
-    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeBefore');
+    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeCharacterBeforeCursor');
   }
 
   if (event.code === 'Delete') {
-    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeAfter');
+    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeCharacterAfterCursor');
   }
 
   if (code === 'CapsLock') {
