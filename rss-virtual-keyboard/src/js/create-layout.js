@@ -14,9 +14,9 @@ const main = createNode({ tag: 'main', className: 'main', parent: root });
 createFooter(root);
 
 const keyboardState = {
-  capslock: false,
-  shift: false,
-  language: getFromLocalStorage('languageKeyboard') || setToLocalStorage('languageKeyboard', 'en'),
+  isCapslock: false,
+  isShift: false,
+  language: getFromLocalStorage('languageKeyboard') ?? setToLocalStorage('languageKeyboard', 'en'),
   ignoreAddedTextButtonsArray: [
     'Backspace', 'Tab', 'Delete', 'CapsLock', 'Enter', 'ShiftLeft',
     'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight', 'ControlRight',
@@ -45,7 +45,7 @@ const arrayButtons = createButtons({
   parentNode: keyboardBlock,
 });
 
-function clickOnButton(event) {
+function onClickOnButton(event) {
   event.preventDefault();
   const { target } = event;
   let textCursor = textArea.selectionEnd;
@@ -76,19 +76,19 @@ function clickOnButton(event) {
   }
 
   if (target.dataset.keycode === 'CapsLock') {
-    keyboardState.capslock = !keyboardState.capslock;
+    keyboardState.isCapslock = !keyboardState.isCapslock;
     changeButtonValue({
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
       json: jsonButtons,
       lang: keyboardState.language,
-      statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
+      statusKeyboard: getDataSetString(keyboardState.isShift, keyboardState.isCapslock),
     });
     target.classList.toggle('activeButton');
   }
 }
 
-function buttonKeyDown(event) {
+function onButtonKeyDown(event) {
   const { code } = event;
 
   if (!jsonButtons.keysCode.includes(code)) return;
@@ -97,31 +97,32 @@ function buttonKeyDown(event) {
   event.preventDefault();
 
   if (code === 'ShiftRight' || code === 'ShiftLeft') {
+    if (keyboardState.isShift) return;
     const shiftLeft = arrayButtons.find((button) => button.dataset.keycode === 'ShiftLeft');
     const shiftRight = arrayButtons.find((button) => button.dataset.keycode === 'ShiftRight');
-    if (keyboardState.shift) return;
-    keyboardState.shift = !keyboardState.shift;
+
+    keyboardState.isShift = true;
     changeButtonValue({
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
       json: jsonButtons,
       lang: keyboardState.language,
-      statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
+      statusKeyboard: getDataSetString(keyboardState.isShift, keyboardState.isCapslock),
     });
     shiftLeft.classList.add('activeButton');
     shiftRight.classList.add('activeButton');
     return;
   }
-
-  const node = arrayButtons.find((button) => button.dataset.keycode === code);
+  // переименовать
+  const activeButton = arrayButtons.find((button) => button.dataset.keycode === code);
 
   if (code === 'Tab') {
     textCursor += 4;
     setTextArea(textArea, textArea.selectionEnd, '    ', textCursor);
   }
-  if (!keyboardState.ignoreAddedTextButtonsArray.includes(node.dataset.keycode)) {
+  if (!keyboardState.ignoreAddedTextButtonsArray.includes(activeButton.dataset.keycode)) {
     textCursor += 1;
-    setTextArea(textArea, textArea.selectionEnd, node.textContent, textCursor);
+    setTextArea(textArea, textArea.selectionEnd, activeButton.textContent, textCursor);
   }
 
   if (code === 'Enter') {
@@ -139,49 +140,54 @@ function buttonKeyDown(event) {
   }
 
   if (code === 'CapsLock') {
-    keyboardState.capslock = !keyboardState.capslock;
+    keyboardState.isCapslock = !keyboardState.isCapslock;
 
     changeButtonValue({
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
       json: jsonButtons,
       lang: keyboardState.language,
-      statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
+      statusKeyboard: getDataSetString(keyboardState.isShift, keyboardState.isCapslock),
     });
-    node.classList.toggle('activeButton');
+    activeButton.classList.toggle('activeButton');
     return;
   }
-  node.classList.add('activeButton');
+  activeButton.classList.add('activeButton');
 }
 
-function buttonKeyUp(event) {
+function onButtonKeyUp(event) {
   const { code } = event;
+  if (code === 'CapsLock') return;
   if (!jsonButtons.keysCode.includes(event.code)) return;
+
   event.preventDefault();
 
   if (code === 'ShiftRight' || code === 'ShiftLeft') {
     const shiftLeft = arrayButtons.find((button) => button.dataset.keycode === 'ShiftLeft');
     const shiftRight = arrayButtons.find((button) => button.dataset.keycode === 'ShiftRight');
-    keyboardState.shift = !keyboardState.shift;
+
+    if (shiftLeft && shiftRight) {
+      shiftLeft.classList.remove('activeButton');
+      shiftRight.classList.remove('activeButton');
+    }
+
+    keyboardState.isShift = false;
     changeButtonValue({
       arrayNodes: arrayButtons,
       arrayIgnoreCode: keyboardState.ignoreAddedTextButtonsArray,
       json: jsonButtons,
       lang: keyboardState.language,
-      statusKeyboard: getDataSetString(keyboardState.shift, keyboardState.capslock),
+      statusKeyboard: getDataSetString(keyboardState.isShift, keyboardState.isCapslock),
     });
-    shiftLeft.classList.remove('activeButton');
-    shiftRight.classList.remove('activeButton');
+
     return;
   }
-  const node = arrayButtons.find((button) => button.dataset.keycode === code);
+  const activeButton = arrayButtons.find((button) => button.dataset.keycode === code);
 
-  if (code === 'CapsLock') return;
-
-  node.classList.remove('activeButton');
+  activeButton.classList.remove('activeButton');
   textArea.blur();
 }
 
-addedEvent({ nodesArray: arrayButtons, callback: clickOnButton, event: 'mousedown' });
-addedEvent({ nodesArray: [document.body], callback: buttonKeyDown, event: 'keydown' });
-addedEvent({ nodesArray: [document.body], callback: buttonKeyUp, event: 'keyup' });
+addedEvent({ nodesArray: arrayButtons, callback: onClickOnButton, event: 'mousedown' });
+addedEvent({ nodesArray: [document.body], callback: onButtonKeyDown, event: 'keydown' });
+addedEvent({ nodesArray: [document.body], callback: onButtonKeyUp, event: 'keyup' });
