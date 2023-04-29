@@ -82,14 +82,14 @@ function resetButtonAfterChangeLanguage() {
 createNode({
   tag: 'p',
   textContent: 'Клавиатура создана в операционной системе Windows.',
-  className: 'main__create-form-text',
+  className: 'main__text',
   parent: main,
 });
 
 createNode({
   tag: 'p',
   textContent: 'Для переключения языка комбинация: ctrl + alt.',
-  className: 'main__create-form-text',
+  className: 'main__text',
   parent: main,
 });
 
