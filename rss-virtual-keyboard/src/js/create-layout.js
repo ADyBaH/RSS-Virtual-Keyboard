@@ -79,6 +79,19 @@ function resetButtonAfterChangeLanguage() {
   keyboardState.activeAltButton.forEach((button) => button.classList.remove('activeButton'));
   keyboardState.activeAltButton = [];
 }
+createNode({
+  tag: 'p',
+  textContent: 'Клавиатура создана в операционной системе Windows.',
+  className: 'main__create-form-text',
+  parent: main,
+});
+
+createNode({
+  tag: 'p',
+  textContent: 'Для переключения языка комбинация: ctrl + alt.',
+  className: 'main__create-form-text',
+  parent: main,
+});
 
 function onButtonMouseDown(event) {
   event.preventDefault();
