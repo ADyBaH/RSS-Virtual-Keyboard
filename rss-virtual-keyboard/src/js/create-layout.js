@@ -10,10 +10,15 @@ import { checkActiveButtons } from '../utils/check-active-buttons';
 import { getArrayFromJson } from '../utils/get-array-from-json';
 import { isCommandKey } from '../utils/is-command-key';
 
-const root = createNode({ className: 'root', parent: document.body });
-createHeader(root);
-const main = createNode({ tag: 'main', className: 'main wrap', parent: root });
-createFooter(root);
+function createLayaut() {
+  const root = createNode({ className: 'root', parent: document.body });
+  createHeader(root);
+  const main = createNode({ tag: 'main', className: 'main wrap', parent: root });
+  createFooter(root);
+  return main;
+}
+
+const main = createLayaut();
 
 const keyboardState = {
   isCapslock: false,
