@@ -12,7 +12,7 @@ import { isCommandKey } from '../utils/is-command-key';
 
 const root = createNode({ className: 'root', parent: document.body });
 createHeader(root);
-const main = createNode({ tag: 'main', className: 'main', parent: root });
+const main = createNode({ tag: 'main', className: 'main wrap', parent: root });
 createFooter(root);
 
 const keyboardState = {
@@ -36,8 +36,7 @@ const textArea = createNode({
   parent: main,
   attr: {
     autocomplete: 'off',
-    rows: 20,
-    cols: 70,
+    rows: 10,
   },
 });
 
@@ -47,7 +46,7 @@ const keyboardBlock = createNode({
 });
 
 const buttons = createButtons({
-  arrayKeys: keyboardState.BUTTONS_KEYS.en.keys,
+  arrayKeys: keyboardState.BUTTONS_KEYS[keyboardState.language].keys,
   arrayKeysCode: keyboardState.BUTTONS_KEYS.keysCode,
   parentNode: keyboardBlock,
 });
