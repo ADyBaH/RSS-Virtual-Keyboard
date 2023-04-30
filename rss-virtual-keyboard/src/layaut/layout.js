@@ -5,7 +5,7 @@ import jsonButtons from '../data/keyboard.json';
 import { createFooter } from './footer';
 import { createHeader } from './header';
 import { changeButtonsTextContent } from '../utils/change-buttons-text-content';
-import { setTextArea } from '../utils/set-text-area';
+import { changeAreaValue } from '../utils/change-area-value';
 import { checkActiveButtons } from '../utils/check-active-buttons';
 import { getArrayFromJson } from '../utils/get-array-from-json';
 import { isCommandKey } from '../utils/is-command-key';
@@ -115,23 +115,23 @@ function onButtonMouseDown(event) {
   }
 
   if (!isCommandKey(target.dataset.keycode, keyboardState)) {
-    setTextArea(textArea, textCursor, target.textContent, textCursor + 1);
+    changeAreaValue(textArea, textCursor, target.textContent, textCursor + 1);
   }
 
   if (target.dataset.keycode === 'Tab') {
-    setTextArea(textArea, textCursor, '    ', textCursor + 4);
+    changeAreaValue(textArea, textCursor, '    ', textCursor + 4);
   }
 
   if (target.dataset.keycode === 'Enter') {
-    setTextArea(textArea, textCursor, '\n', textCursor + 1);
+    changeAreaValue(textArea, textCursor, '\n', textCursor + 1);
   }
 
   if (target.dataset.keycode === 'Backspace') {
-    setTextArea(textArea, textCursor, '', !textCursor ? 0 : textCursor -= 1, 'removeCharacterBeforeCursor');
+    changeAreaValue(textArea, textCursor, '', !textCursor ? 0 : textCursor -= 1, 'removeCharacterBeforeCursor');
   }
 
   if (target.dataset.keycode === 'Delete') {
-    setTextArea(textArea, textCursor, '', textCursor, 'removeCharacterAfterCursor');
+    changeAreaValue(textArea, textCursor, '', textCursor, 'removeCharacterAfterCursor');
   }
 
   if (target.dataset.keycode === 'CapsLock') {
@@ -190,23 +190,23 @@ function onButtonKeyDown(event) {
   const activeButton = buttons.find((button) => button.dataset.keycode === code);
 
   if (!isCommandKey(activeButton.dataset.keycode, keyboardState)) {
-    setTextArea(textArea, textCursor, activeButton.textContent, textCursor + 1);
+    changeAreaValue(textArea, textCursor, activeButton.textContent, textCursor + 1);
   }
 
   if (code === 'Tab') {
-    setTextArea(textArea, textCursor, '    ', textCursor + 4);
+    changeAreaValue(textArea, textCursor, '    ', textCursor + 4);
   }
 
   if (code === 'Enter') {
-    setTextArea(textArea, textCursor, '\n', textCursor + 1);
+    changeAreaValue(textArea, textCursor, '\n', textCursor + 1);
   }
 
   if (code === 'Backspace') {
-    setTextArea(textArea, textCursor, '', !textCursor ? 0 : textCursor - 1, 'removeCharacterBeforeCursor');
+    changeAreaValue(textArea, textCursor, '', !textCursor ? 0 : textCursor - 1, 'removeCharacterBeforeCursor');
   }
 
   if (code === 'Delete') {
-    setTextArea(textArea, textArea.selectionEnd, '', textCursor, 'removeCharacterAfterCursor');
+    changeAreaValue(textArea, textArea.selectionEnd, '', textCursor, 'removeCharacterAfterCursor');
   }
 
   if (code === 'CapsLock') {
