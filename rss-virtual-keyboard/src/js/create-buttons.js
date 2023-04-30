@@ -5,7 +5,7 @@ export function createButtons({
 }) {
   return arrayKeys.map((_, index) => createNode({
     tag: 'button',
-    className: 'keyboardBlock_key',
+    className: 'keyboard-block__key',
     textContent: arrayKeys[index],
     attr: {
       'data-keycode': arrayKeysCode[index],
