@@ -1,3 +1,1 @@
-export function checkActiveButtons(arrayButton) {
-  return arrayButton.some((v) => v.classList.contains('activeButton'));
-}
+export const checkActiveButtons = (arrayButton) => arrayButton.some((button) => button.classList.contains('activeButton'));
