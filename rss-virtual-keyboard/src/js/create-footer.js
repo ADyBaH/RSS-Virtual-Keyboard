@@ -25,9 +25,13 @@ export function createFooter(node) {
     parent: footer,
   });
   createNode({
-    tag: 'span',
-    textContent: 'img',
-    className: 'footer__rssImg',
+    tag: 'a',
+    className: 'footer__rss-img',
+    attr: {
+      href: 'https://rs.school/',
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    },
     parent: footer,
   });
 
