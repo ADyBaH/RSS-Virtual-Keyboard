@@ -65,12 +65,9 @@ const startChangeButton = () => {
 };
 
 function changeLanguageKeyboard() {
-  if (keyboardState.language === 'en') {
-    keyboardState.language = setToLocalStorage('languageKeyboard', 'ru');
-    startChangeButton();
-    return;
-  }
-  keyboardState.language = setToLocalStorage('languageKeyboard', 'en');
+  keyboardState.language = keyboardState.language === 'en'
+    ? setToLocalStorage('languageKeyboard', 'ru') : setToLocalStorage('languageKeyboard', 'en');
+
   startChangeButton();
 }
 
