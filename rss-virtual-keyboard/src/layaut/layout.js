@@ -71,7 +71,7 @@ function changeLanguageKeyboard() {
   startChangeButton();
 }
 
-function resetButtonAfterChangeLanguage() {
+function resetState() {
   changeLanguageKeyboard();
   keyboardState.isCtrl = false;
   keyboardState.isAlt = false;
@@ -146,7 +146,7 @@ function onButtonMouseDown(event) {
     }
     keyboardState.isAlt = checkActiveButtons(keyboardState.activeAltButton);
     if (keyboardState.isCtrl && keyboardState.isAlt) {
-      resetButtonAfterChangeLanguage();
+      resetState();
     }
   }
 
@@ -157,7 +157,7 @@ function onButtonMouseDown(event) {
     }
     keyboardState.isCtrl = checkActiveButtons(keyboardState.activeCtrlButton);
     if (keyboardState.isCtrl && keyboardState.isAlt) {
-      resetButtonAfterChangeLanguage();
+      resetState();
     }
   }
 
