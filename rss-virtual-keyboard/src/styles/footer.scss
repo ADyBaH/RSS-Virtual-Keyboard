@@ -1,0 +1,47 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 90%;
+  margin: 1rem 5vw;
+  &__by {
+    margin: 0;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000000;
+  }
+  &__github {
+    color: #fff;
+    text-shadow: 1px 1px 1px #000000;
+    text-decoration: none;
+    position: relative;
+    transition: transform 0.3s;
+    &::before {
+      content: "";
+      right:70px;
+      position: absolute;
+      width: 0.9rem;
+      height: 0.9rem;
+      background-image: url(./assets/github-mark-white.svg);
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    @media (any-hover: hover) {
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+  &__rss-img {
+    width: 5rem;
+    height: 2rem;
+    background-image: url(./assets/rs_school_js.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: transform 0.3s;
+    @media (any-hover: hover) {
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+}

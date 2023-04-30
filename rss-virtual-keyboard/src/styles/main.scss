@@ -1,13 +1,107 @@
-.main__textBlock {
-  text-align: center;
-  min-height: 1rem;
-  word-wrap: break-word;
+$main-color: #007DC1;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: #747474;
+  min-height: 99.99vh;
+}
+.main {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  &__text {
+    color: #fff;
+    text-shadow: 1px 1px 1px #000000;
+    text-align: center;
+    margin: 0.5rem 0;
+
+  }
 }
 
-.keyboardBlock_key:active {
- background-color: green;
+.textarea-for-keyboard {
+  // all: unset;
+  border: none;
+  outline: none;
+  border-radius: 0.2rem;
+  resize: none;
+  overflow-y: hidden;
+  background-color: #c7c5c5;
+  min-height: 1rem;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5),
+  0 15px 25px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 1px #007DC1;
+  // word-wrap: break-word;
 }
-.activeButton {
-  background-color: green;
-  transition: background-color 0.3s;
+
+.keyboard-block{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  max-width: 34rem;
+  background-color: #747474;
+  border: 3px solid black;
+  border-radius: 0.3rem;
+  &__key {
+    cursor: pointer;
+    margin: 0.1rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.1rem;
+    border: 2px solid #2f2f2f;
+    color: #fff;
+    background: linear-gradient(#747474, #2f2f2f, #2a2a2a );
+    box-shadow: inset 0 3px 1px rgba(0, 0, 0, 0.35),
+      0 5px 5px rgba(0, 0, 0, 0.5),
+      0 15px 25px #007dc170;
+    transition: box-shadow 0.3s, color 0.3s, border-radius 0.3s;
+    &:active {
+      color: $main-color;
+      text-shadow: 0 0 5px $main-color, 0 0 8px $main-color;
+      box-shadow: inset 10px 15px 25px rgba(0, 0, 0, 0.35);
+    }
+    &[data-keycode="Space"] {
+      width: 13.1rem;
+    }
+    &[data-keycode="Backspace"] {
+      width: 5.2rem;
+    }
+    &[data-keycode="Tab"] {
+      width: 2.5rem;
+    }
+    &[data-keycode="Delete"] {
+      width: 2.5rem;
+    }
+    &[data-keycode="CapsLock"] {
+      width: 5rem;
+    }
+    &[data-keycode="Enter"] {
+      width: 4.4rem;
+    }
+    &[data-keycode^="Shift"] {
+      width: 4.7rem;
+    }
+    &[data-keycode^="Alt"] {
+      width: 2.6rem;
+    }
+    &[data-keycode^="Control"] {
+      width: 2.7rem;
+    }
+    &[data-keycode^="MetaLeft"] {
+      width: 2.5rem;
+    }
+    @media (any-hover: hover) {
+      &:hover {
+        border-radius: 1rem;
+      }
+    }
+  }
+  .activeButton {
+    color: $main-color;
+    text-shadow: 0 0 5px $main-color, 0 0 8px $main-color;
+    box-shadow: inset 10px 15px 25px rgba(0, 0, 0, 0.35);
+  }
 }
