@@ -1,9 +1,9 @@
 import { createNode } from '../utils/create-node';
-import { createButtons, addedEvent } from './create-buttons';
+import { createButtons, addedEvent } from './keycap';
 import { setToLocalStorage, getFromLocalStorage } from '../utils/local-storage';
 import jsonButtons from '../data/keyboard.json';
-import { createFooter } from './create-footer';
-import { createHeader } from './create-header';
+import { createFooter } from './footer';
+import { createHeader } from './header';
 import { changeButtonsTextContent } from '../utils/change-buttons-text-content';
 import { setTextArea } from '../utils/set-text-area';
 import { checkActiveButtons } from '../utils/check-active-buttons';

@@ -1,4 +1,4 @@
 import './style.scss';
-import './js/create-layout';
-import './js/create-footer';
-import './js/create-buttons';
+import './layaut/layout';
+import './layaut/footer';
+import './layaut/keycap';
