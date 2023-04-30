@@ -9,6 +9,7 @@ import { setTextArea } from '../utils/set-text-area';
 import { checkActiveButtons } from '../utils/check-active-buttons';
 import { getArrayFromJson } from '../utils/get-array-from-json';
 import { isCommandKey } from '../utils/is-command-key';
+import { clearActiveButton } from '../utils/clear-active-button';
 
 function createLayaut() {
   const root = createNode({ className: 'root', parent: document.body });
@@ -71,15 +72,14 @@ function changeLanguageKeyboard() {
   startChangeButton();
 }
 
-function resetState() {
+function resetActiveButton() {
   changeLanguageKeyboard();
   keyboardState.isCtrl = false;
   keyboardState.isAlt = false;
-  keyboardState.activeCtrlButton.forEach((button) => button.classList.remove('activeButton'));
-  keyboardState.activeCtrlButton = [];
-  keyboardState.activeAltButton.forEach((button) => button.classList.remove('activeButton'));
-  keyboardState.activeAltButton = [];
+  keyboardState.activeCtrlButton = clearActiveButton(keyboardState.activeCtrlButton);
+  keyboardState.activeAltButton = clearActiveButton(keyboardState.activeAltButton);
 }
+
 createNode({
   tag: 'p',
   textContent: 'Клавиатура создана в операционной системе Windows.',
@@ -113,6 +113,7 @@ function onButtonMouseDown(event) {
     startChangeButton();
     return;
   }
+
   if (!isCommandKey(target.dataset.keycode, keyboardState)) {
     setTextArea(textArea, textCursor, target.textContent, textCursor + 1);
   }
@@ -146,7 +147,7 @@ function onButtonMouseDown(event) {
     }
     keyboardState.isAlt = checkActiveButtons(keyboardState.activeAltButton);
     if (keyboardState.isCtrl && keyboardState.isAlt) {
-      resetState();
+      resetActiveButton();
     }
   }
 
@@ -157,7 +158,7 @@ function onButtonMouseDown(event) {
     }
     keyboardState.isCtrl = checkActiveButtons(keyboardState.activeCtrlButton);
     if (keyboardState.isCtrl && keyboardState.isAlt) {
-      resetState();
+      resetActiveButton();
     }
   }
 
@@ -167,9 +168,9 @@ function onButtonMouseDown(event) {
 function onButtonKeyDown(event) {
   const { code } = event;
   if (!keyboardState.BUTTONS_KEYS.keysCode.includes(code)) return;
-  textArea.focus();
   const textCursor = textArea.selectionEnd;
   event.preventDefault();
+  textArea.focus();
 
   if (code === 'ShiftRight' || code === 'ShiftLeft') {
     if (keyboardState.isShift) return;
@@ -191,6 +192,7 @@ function onButtonKeyDown(event) {
   if (!isCommandKey(activeButton.dataset.keycode, keyboardState)) {
     setTextArea(textArea, textCursor, activeButton.textContent, textCursor + 1);
   }
+
   if (code === 'Tab') {
     setTextArea(textArea, textCursor, '    ', textCursor + 4);
   }
@@ -236,14 +238,8 @@ function onButtonKeyUp(event) {
   const { code } = event;
   if (code === 'CapsLock') return;
   if (!keyboardState.BUTTONS_KEYS.keysCode.includes(event.code)) return;
-
   event.preventDefault();
-  if (code === 'AltLeft' || code === 'AltRight') {
-    keyboardState.isAlt = false;
-  }
-  if (code === 'ControlRight' || code === 'ControlLeft') {
-    keyboardState.isCtrl = false;
-  }
+
   if (code === 'ShiftRight' || code === 'ShiftLeft') {
     const shiftLeft = buttons.find((button) => button.dataset.keycode === 'ShiftLeft');
     const shiftRight = buttons.find((button) => button.dataset.keycode === 'ShiftRight');
@@ -258,6 +254,15 @@ function onButtonKeyUp(event) {
 
     return;
   }
+
+  if (code === 'AltLeft' || code === 'AltRight') {
+    keyboardState.isAlt = false;
+  }
+
+  if (code === 'ControlRight' || code === 'ControlLeft') {
+    keyboardState.isCtrl = false;
+  }
+
   const activeButton = buttons.find((button) => button.dataset.keycode === code);
 
   activeButton.classList.remove('activeButton');
